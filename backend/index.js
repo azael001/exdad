@@ -69,6 +69,28 @@ console.error(`Error while deleting items `, err.message);
 next(err);
 }
 })
+app.get('/addItemUser',async function(req, res, next) {
+    console.log(req.query)
+    console.log(req.query.nombre)
+    console.log(req.query.login)
+    console.log(req.query.password)
+    console.log(req.query.rol)
+try {
+ res.json(await login.insertDataUser(req))
+}catch(err){
+    console.error('Error while inserting items' , err.message);
+    next(err)
+    }
+})
+
+app.get('/getItemsUser', async function(req, res, next) {
+    try {
+    res.json(await login.getDataUser(req))
+    } catch (err) {
+    console.error(`Error while getting items `, err.message);
+    next(err);
+    }
+   })
    
    
   

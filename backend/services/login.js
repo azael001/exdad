@@ -17,8 +17,26 @@ async function getUserData (user, password) {
         data 
     }
 }
+async function insertDataUser (req, res) {
+   const data = req.query
+   const result = await db.query(
+`INSERT INTO usuarios (id,nombre, login, password, rol) VALUES (default,'${data.nombre}','${data.login}','${data.password}','${data.rol}')`
+)
+  return result.affectedRows
+}
 
-//Exporto la función getUserData para poder usarla en otro fichero
+async function getDataUser (req, res) {
+    const rows = await db.query(
+         `select * from usuarios`
+   )
+   const data = helper.emptyOrRows(rows)
+   return {
+     data 
+      }
+   }
+
 module.exports = {
-    getUserData
+    getUserData,
+    insertDataUser,
+    getDataUser
 }

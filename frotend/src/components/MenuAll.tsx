@@ -25,7 +25,9 @@ import Avatar from '@mui/material/Avatar';
 import ad from '../assets/ad.png'
 import user from '../assets/user.png'
 import  Tooltip from '@mui/material/Tooltip';
-
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
+import AdbIcon from '@mui/icons-material/Adb'
+import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon'
 
 function MenuAll() {
     const userData = useSelector((state: RootState) => state.authenticator)
@@ -35,7 +37,8 @@ function MenuAll() {
 
     const [open, setOpen] = React.useState(false);
     const isAdmin = userData.userRol === 'admin';
-    const userImg = isAdmin ? ad : user;
+    const isUser = userData.userRol === 'user';
+    const isInviter = userData.userRol === 'invitado';
 
     const toggleDrawer = (newOpen: boolean) => () => {
       setOpen(newOpen);
@@ -109,6 +112,23 @@ function MenuAll() {
               </Tooltip>
           </List>
           <Divider />
+          {isAdmin &&( 
+          <>
+          <List>
+          <Link to={'/GestionUsuario'}  style={{textDecoration:'none', color:'black'}}>
+          <Tooltip title="GestionUsuario">
+              <ListItem >
+                <ListItemButton>
+                  <InsertDriveFileIcon sx={{mr:2}}></InsertDriveFileIcon>
+                  <ListItemText>GestionUsuario</ListItemText> 
+                </ListItemButton>
+              </ListItem>
+          </Tooltip>
+              </Link>
+          </List>
+          <Divider />
+          </>
+          )}
         </Box>
       );
 
@@ -131,7 +151,9 @@ function MenuAll() {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1}}>
           {userData.userName}
         </Typography>
-        <Avatar alt="User Image" src={userImg}></Avatar>
+        {isAdmin &&( <AdminPanelSettingsIcon/>)}
+        {isUser &&( <AdbIcon/>)}
+        {isInviter &&( <InsertEmoticonIcon/>)}
       </Toolbar>
       <Drawer open={open} onClose={toggleDrawer(false)}>
         {DrawerList}
